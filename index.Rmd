@@ -1,0 +1,107 @@
+---
+title: "My amazing dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    theme: readable
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+```
+
+
+
+
+# Highway MPG {data-icon="fa-car"}
+
+Cars and Highway MPGs {.sidebar}
+--------------
+This is a really cool dashboard. Check out the
+[cars](https://www.gilroybuickgmc.com/VehicleSearchResults?search=preowned,certified&bodyType=Car&make=All&cs:e=m&cs:q=cars&cs:m=p&cs:cid=73117773071722&cs:tv=5577&cs:a=used_vehicle_search&cs:pro=mltdpmmltusemlt&cs:ki=1787609140&d_event=click&d_src=479987&d_campaign=mltdpmmltusemlt&d_site=b&d_WebID=gmps-gilroy-bg&d_keyword=used%20car&d_adsrc=Divisional_T3&s_kwcid=AL!15760!10!73117773071722!73118216390972), *italics*, **bolding**, etc.
+
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart A 
+
+```{r}
+library(tidyverse)
+library(plotly)
+
+theme_set(theme_minimal(15))
+
+p <- ggplot(mpg, aes(displ, hwy)) +
+  geom_point() +
+  geom_smooth()
+
+ggplotly(p)
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
+smry <- mpg %>% 
+  group_by(manufacturer) %>% 
+  summarize(mean_hwy = mean(hwy, na.rm = TRUE))
+
+ggplot(smry, aes(mean_hwy, manufacturer)) +
+  geom_col(fill = "cornflowerblue")
+```
+
+
+
+### My amazing table
+
+```{r}
+reactable::reactable(smry)
+```
+
+
+
+# City MPG {data-icon="fa-id-card"}
+
+Cars and City MPGs {.sidebar}
+--------------
+This is an **AMAZING** cool dashboard. Check out the
+[cars](https://www.gilroybuickgmc.com/VehicleSearchResults?search=preowned,certified&bodyType=Car&make=All&cs:e=m&cs:q=cars&cs:m=p&cs:cid=73117773071722&cs:tv=5577&cs:a=used_vehicle_search&cs:pro=mltdpmmltusemlt&cs:ki=1787609140&d_event=click&d_src=479987&d_campaign=mltdpmmltusemlt&d_site=b&d_WebID=gmps-gilroy-bg&d_keyword=used%20car&d_adsrc=Divisional_T3&s_kwcid=AL!15760!10!73117773071722!73118216390972), *italics*, **bolding**, etc.
+
+
+Column {.tabset}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+p_cty <- ggplot(mpg, aes(displ, cty)) +
+  geom_point() +
+  geom_smooth()
+
+ggplotly(p_cty)
+
+```
+
+### Chart B
+
+```{r}
+smry_cty <- mpg %>% 
+  group_by(manufacturer) %>% 
+  summarize(mean_cty = mean(cty, na.rm = TRUE))
+
+ggplot(smry_cty, aes(mean_cty, manufacturer)) +
+  geom_col(fill = "firebrick")
+```
+
+
+### My amazing table
+
+```{r}
+reactable::reactable(smry)
+```
+
+
